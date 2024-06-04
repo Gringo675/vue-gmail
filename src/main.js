@@ -1,6 +1,18 @@
-import './assets/main.css'
+import './css/main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+// to settle gmailTrusted-Types errors
+if (window.trustedTypes && window.trustedTypes.createPolicy) {
+  window.trustedTypes.createPolicy('default', {
+    createHTML: string => string,
+    createScriptURL: string => string,
+    createScript: string => string,
+  })
+}
+
+const myApp = document.createElement('div')
+myApp.id = 'vue-app'
+document.body.append(myApp)
+createApp(App).mount('#vue-app')

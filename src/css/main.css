@@ -1,0 +1,5 @@
+/*hide tooltip on left sidebar*/
+.T-ays {
+  display: none !important;
+  background: red;
+}
