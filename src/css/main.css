@@ -1,5 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* change thread messages direction */
+.nH div[role='list'] {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.nH[role='list'] > div[role='listitem'] > .Bk > .G3.G2 {
+  border-top: none;
+}
+
+.nH[role='list'] > div[role='listitem'] > .Bk > .G3.G2 {
+  border-bottom: 1px solid rgba(100, 121, 143, 0.122);
+}
+
+.nH[role='list'] > div[role='listitem']:first-child > .Bk > .G3.G2 {
+  border-bottom: none;
+}
+
+.nH[role='list'] > div.adv ~ div[role='listitem'] > .Bk > .G3.G2 {
+  border-bottom: none;
+}
+
+.nH[role='list'] > div.adv ~ div[role='listitem'] > .Bk > .G3.G2 {
+  border-top: 1px solid rgba(100, 121, 143, 0.122);
+}
+
+.nH[role='list'] > div.adv ~ div[role='listitem']:last-child > .Bk > .G3.G2 {
+  border-top: none;
+}
+
+/* snippets */
+.snipps {
+  position: absolute;
+  border: 1px solid #c2c3c3;
+  border-radius: 10px;
+  z-index: 10;
+  background: whitesmoke;
+  width: 200px;
+  font-size: 14px;
+}
+.snipps:before {
+  position: absolute;
+  top: 15px;
+  left: -35px;
+  content: '';
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-right: 15px solid #c2c3c3;
+}
+.snipps > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.snipps > ul li {
+  padding: 8px;
+}
+.snipps > ul li:nth-child(even) {
+  background: #e0e0e0;
+}
+
+/* customer info block */
+#customerInfo {
+  display: block;
+  padding: 10px;
+  border: 2px solid #4285f4;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+#customerInfo.wait #spinner {
+  display: block;
+}
+#spinner {
+  display: none;
+  margin: auto;
+  width: 30px;
+  height: 30px;
+  border: 5px solid darkgrey;
+  border-radius: 50%;
+  border-top-color: dodgerblue;
+  animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+#customerInfo .customerBillsEmpty {
+  text-align: center;
+  font-weight: 600;
+  height: 40px;
+  line-height: 40px;
+}
+#customerInfo .customerBillsTotal {
+  cursor: pointer;
+  text-align: center;
+  font-weight: 600;
+  height: 40px;
+}
+#customerInfo .customerBillsTotal::after {
+  display: block;
+  border: solid #4285f4;
+  border-width: 0 3px 3px 0;
+  width: 0;
+  padding: 7px;
+  margin: auto;
+  content: '';
+  transform: rotate(45deg) translate(0, 0) scale(1);
+  transition: transform 0.5s linear;
+}
+#customerInfo .customerBillsTotal.close::after {
+  transform: rotate(45deg) translate(6px, 6px) scale(-1);
+}
+#customerInfo .customerBills .customerBill {
+  margin-top: 3px;
+  padding: 10px;
+  height: 39px;
+  box-sizing: border-box;
+  overflow: hidden;
+  opacity: 1;
+  background: #eaeaea;
+  border-radius: 5px;
+  transition: all 0.5s linear;
+}
+#customerInfo .customerBills.hide .customerBill {
+  margin-top: 0;
+  padding: 0;
+  height: 0;
+  opacity: 0;
+}
+#customerInfo .customerBill.closed {
+  background: #8ff045;
+}
+#customerInfo .customerBill.inProgress {
+  background: #ff988e;
+}
+#customerInfo .customerBill.waitingPayment {
+  background: #abdcff;
+}
+
 /*hide tooltip on left sidebar*/
 .T-ays {
   display: none !important;
-  background: red;
+}
+
+/*фон на плашке цепочки в левой панели*/
+.yO {
+  background: rgba(63, 6, 6, 0.03) !important;
+}
+.zE {
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+/*Всплывающий блок при наведении на отправителя/получателя. Делаем выше, чтобы не мешал набору текста.*/
+#C__HC_94253229 {
+  transform: translateY(-150px);
+}
+
+.threadInfoHolder {
+  z-index: 10;
 }

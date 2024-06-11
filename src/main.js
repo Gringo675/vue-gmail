@@ -12,8 +12,8 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
   })
 }
 
-const config = useConfig()
-console.log(`config: ${JSON.stringify(config, null, 2)}`)
+// const config = useConfig()
+// console.log(`config: ${JSON.stringify(config, null, 2)}`)
 
 const myApp = document.createElement('div')
 myApp.id = 'vue-app'
