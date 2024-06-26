@@ -16,6 +16,10 @@ export const initGmailLinks = async () => {
     if (mainNode !== null) break
   }
 
+  // проверяем на наличие активной категории
+  links.category = mainNode.firstElementChild
+  if (links.category) handleNewCategory()
+
   const observer = new MutationObserver(mutationRecords => {
     // console.log(mutationRecords)
     mutationRecords.forEach(mutation => {
@@ -120,6 +124,70 @@ export const findAllThreads = () => {
   searchInput.dispatchEvent(pressEnter)
 }
 
-export const goToAttachment = attachment => {
-  console.log('goToAttachment: ', attachment)
+export const goToAttachment = async attachment => {
+  // если цепочка свернута, нужно предварить развернуть её
+  const unfoldButton = links.thread.querySelector('button[aria-label="Развернуть все"]')
+  if (unfoldButton) {
+    unfoldButton.click()
+    await new Promise(resolve => setTimeout(resolve, 400))
+  }
+
+  const message = links.thread.querySelector('.adn.ads[data-legacy-message-id="' + attachment.messId + '"]')
+  const scrolledContainer = links.thread.parentNode.parentNode.parentNode.parentNode.parentNode
+
+  const allAttachmentsLinks = message.querySelectorAll('.aQH > span > a > span')
+  for (const attachmentLink of allAttachmentsLinks) {
+    if (attachmentLink.textContent === 'Предварительный просмотр файла ' + attachment.name) {
+      attachmentLink.parentNode.click()
+      break
+    }
+  }
+
+  // прокручиваем цепочку до нужного письмо
+  // scrollIntoView работает некорректно, поэтому приходится делать руками
+  scrolledContainer.scrollBy(
+    0,
+    message.getBoundingClientRect().bottom - scrolledContainer.getBoundingClientRect().bottom
+  )
+}
+
+export const getOpenDraft = () => {
+  return document.querySelector('.M9 .editable')
+}
+
+export const createAddTaskHolder = async () => {
+  let searchBlock
+  for (let i = 0; i < 5; i++) {
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    searchBlock = document.querySelector('.gb_Fe')
+    if (searchBlock) break
+  }
+  if (!searchBlock) {
+    console.error("Can't create addTask holder!")
+    return null
+  }
+  const addTaskHolder = document.createElement('div')
+  addTaskHolder.id = 'addTaskHolder'
+  // insert after searchBlock
+  searchBlock.after(addTaskHolder)
+  return addTaskHolder
+}
+
+export const createTaskDraft = async () => {
+  const buttonNewEmail = document.querySelector('.T-I.T-I-KE.L3')
+  buttonNewEmail.click()
+
+  let toInput
+  for (let i = 0; i < 5; i++) {
+    await new Promise(resolve => setTimeout(resolve, 500))
+    toInput = document.querySelector('.agP.aFw')
+    if (toInput) break
+  }
+  if (toInput === null) {
+    console.error("Can't create task draft!")
+    return
+  }
+  toInput.value = 'chelinstrument@gmail.com'
+  const subjectInput = document.querySelector('.aoT')
+  subjectInput.focus()
 }

@@ -1,7 +1,9 @@
 <script setup>
 //
 import { useGmailLinks, initGmailLinks } from './composables/gmailAPI'
-import Test from './components/Test.vue'
+import Snippets from './components/Snippets.vue'
+import AddTaskButton from './components/AddTaskButton.vue'
+// import Test from './components/Test.vue'
 import ThreadInfoBlock from './components/ThreadInfoBlock.vue'
 
 const gLinks = useGmailLinks()
@@ -10,5 +12,7 @@ initGmailLinks()
 
 <template>
   <ThreadInfoBlock v-if="gLinks.thread" />
-  <Test />
+  <Snippets />
+  <AddTaskButton />
+  <!-- <Test /> -->
 </template>

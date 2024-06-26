@@ -1,6 +1,8 @@
 <script setup>
 //
 import { useGmailLinks, useGmailThreadId } from '../composables/gmailAPI'
+import { useTest } from '../composables/useTest'
+const test = useTest()
 console.log(`from test.vue`)
 const gLinks = useGmailLinks()
 
@@ -20,12 +22,34 @@ const onTest = () => {
   // ell.innerHTML = '<div>ell element 444555</div>'
   // gState.threadNode.append(ell)
 }
+
+const onTest2 = () => {
+  const mess = document.getElementById('messid')
+  const cont = document.getElementById('contid')
+
+  const mCoord = mess.getBoundingClientRect()
+  console.log(`mCoord: ${JSON.stringify(mCoord, null, 2)}`)
+  const cCoord = cont.getBoundingClientRect()
+  console.log(`cCoord: ${JSON.stringify(cCoord, null, 2)}`)
+
+  cont.scrollBy({
+    top: mCoord.bottom - cCoord.bottom,
+    left: 0,
+    behavior: 'smooth',
+  })
+}
 </script>
 
 <template>
   <!-- <teleport to="gLinks.main"> -->
-  <div class=""></div>
-  <button @click="onTest">test</button>
-  <span>threadId: {{ threadId }}</span>
+  <div class="flex gap-5">
+    <button @click="onTest">test</button>
+    <div>category: {{ gLinks.category !== null }}</div>
+    <div>thread: {{ gLinks.thread !== null }}</div>
+    <button @click="onTest2">test2</button>
+    <div>gTime: {{ test.gTime }}</div>
+    <div>ocTime: {{ test.ocTime }}</div>
+  </div>
+
   <!-- </teleport> -->
 </template>

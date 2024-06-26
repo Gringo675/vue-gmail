@@ -144,9 +144,9 @@
 }
 
 /*hide tooltip on left sidebar*/
-.T-ays {
+/* .T-ays {
   display: none !important;
-}
+} */
 
 /*фон на плашке цепочки в левой панели*/
 .yO {
@@ -158,9 +158,24 @@
 
 /*Всплывающий блок при наведении на отправителя/получателя. Делаем выше, чтобы не мешал набору текста.*/
 #C__HC_94253229 {
-  transform: translateY(-150px);
+  transform: translateY(-150px) !important;
 }
 
+/* блок информации о цепочке */
 .threadInfoHolder {
   z-index: 10;
+}
+
+/* фиксируем заголовок цепочки */
+.nH.a98.iY.aHo > div:first-child {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: white;
+  border-bottom: 1px solid #dfd5d0;
+
+  & .byY {
+    padding-top: 15px;
+    padding-bottom: 5px;
+  }
 }
