@@ -179,3 +179,8 @@
     padding-bottom: 5px;
   }
 }
+
+/* прячем все сервисные сообщения (спам, фишинг etc) */
+.qQVYZb {
+  display: none;
+}

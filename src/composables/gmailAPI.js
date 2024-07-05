@@ -1,20 +1,39 @@
 import { computed, reactive } from 'vue'
 
+// import { createApp } from 'vue'
+// import TestDraft from '../components/TestDraft.vue'
+
 const links = reactive({
   category: null,
   thread: null,
   threadInfoHolder: null,
 })
-
 export const useGmailLinks = () => links
 
-export const initGmailLinks = async () => {
-  let mainNode = null // корневой элемент, который будем слушать
-  while (1) {
-    await new Promise(resolve => setTimeout(resolve, 500))
-    mainNode = document.querySelector('div.aeF > div.nH')
-    if (mainNode !== null) break
+const getDomElementHelper = async (selector, parent = document) => {
+  let element
+  for (let i = 0; i < 10; i++) {
+    await new Promise(resolve => setTimeout(resolve, 200))
+    element = parent.querySelector(selector)
+    if (element) break
   }
+  if (!element)
+    console.error(
+      `getDomElementHelper error! Can't find ${parent === document ? 'document' : parent}.querySelector('${selector}')`
+    )
+  return element
+}
+
+export const initGmailLinks = async () => {
+  // let mainNode = null // корневой элемент, который будем слушать
+  // while (1) {
+  //   await new Promise(resolve => setTimeout(resolve, 500))
+  //   mainNode = document.querySelector('div.aeF > div.nH')
+  //   if (mainNode !== null) break
+  // }
+
+  const mainNode = await getDomElementHelper('div.aeF > div.nH')
+  if (!mainNode) return
 
   // проверяем на наличие активной категории
   links.category = mainNode.firstElementChild
@@ -29,8 +48,9 @@ export const initGmailLinks = async () => {
         // добавленный элемент автоматически становится основной категорией
         if (!addedNode.classList.contains('S4')) {
           // особое условие для поиска, который засовывает основную категорию внутрь добавленного элемента
-          await new Promise(resolve => setTimeout(resolve, 500)) // элементы добавляются асинхронно
-          links.category = addedNode.querySelector('.S4')
+          // await new Promise(resolve => setTimeout(resolve, 500)) // элементы добавляются асинхронно
+          // links.category = addedNode.querySelector('.S4')
+          links.category = await getDomElementHelper('.S4', addedNode)
         } else links.category = addedNode
         // console.log('links.category: ', links.category)
         links.thread = null // новая категория всегда открывается без активной цепочки
@@ -156,16 +176,7 @@ export const getOpenDraft = () => {
 }
 
 export const createAddTaskHolder = async () => {
-  let searchBlock
-  for (let i = 0; i < 5; i++) {
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    searchBlock = document.querySelector('.gb_Fe')
-    if (searchBlock) break
-  }
-  if (!searchBlock) {
-    console.error("Can't create addTask holder!")
-    return null
-  }
+  const searchBlock = await getDomElementHelper('.gb_re')
   const addTaskHolder = document.createElement('div')
   addTaskHolder.id = 'addTaskHolder'
   // insert after searchBlock
@@ -174,20 +185,29 @@ export const createAddTaskHolder = async () => {
 }
 
 export const createTaskDraft = async () => {
-  const buttonNewEmail = document.querySelector('.T-I.T-I-KE.L3')
+  // создаем новое письмо
+  const buttonNewEmail = await getDomElementHelper('.T-I.T-I-KE.L3')
   buttonNewEmail.click()
-
-  let toInput
-  for (let i = 0; i < 5; i++) {
-    await new Promise(resolve => setTimeout(resolve, 500))
-    toInput = document.querySelector('.agP.aFw')
-    if (toInput) break
-  }
-  if (toInput === null) {
-    console.error("Can't create task draft!")
-    return
-  }
+  // меняем отправителя с дефолтного на chelinstrument@gmail.com
+  const fromHolder = await getDomElementHelper('.J-JN-M-I.J-J5-Ji.az2.az4')
+  const mdEvent = new MouseEvent('mousedown', {
+    bubbles: true,
+    cancelable: true,
+  })
+  fromHolder.dispatchEvent(mdEvent)
+  const fromItem = await getDomElementHelper('.jQjAxd .J-N.HX')
+  const itemCoords = fromItem.getBoundingClientRect()
+  const muEvent = new MouseEvent('mouseup', {
+    bubbles: true,
+    cancelable: true,
+    clientX: Math.round(itemCoords.x + itemCoords.width / 2),
+    clientY: Math.round(itemCoords.y + itemCoords.height / 2),
+  })
+  fromItem.dispatchEvent(muEvent)
+  // вставляем в поле Кому chelinstrument@gmail.com
+  const toInput = await getDomElementHelper('.agP.aFw')
   toInput.value = 'chelinstrument@gmail.com'
-  const subjectInput = document.querySelector('.aoT')
+  // переводим фокус в поле Тема
+  const subjectInput = await getDomElementHelper('.aoT')
   subjectInput.focus()
 }

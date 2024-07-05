@@ -113,6 +113,7 @@ const updateNotice = async () => {
   const isNoticeSaved = (await response.json()).response
 
   if (isNoticeSaved) {
+    setToCache(threadId.value, state)
     noticeUpdaterState.value = 'success'
     setTimeout(() => (noticeUpdaterState.value = null), 2000)
   } else noticeUpdaterState.value = 'error'
@@ -170,8 +171,9 @@ const updateNotice = async () => {
           <div class="mt-1.5 py-1 rounded-b-lg bg-[#e3d9d6] max-h-[600px] overflow-y-auto">
             <div
               v-for="attachment in state.attachments"
-              class="cursor-pointer my-2 mx-3 p-2 rounded-lg text-stone-700 font-medium hover:scale-105 transition-transform duration-300 bg-stone-300"
+              class="cursor-pointer my-2 mx-3 p-2 rounded-lg text-stone-700 font-medium hover:scale-105 transition-transform duration-300 bg-stone-300 max-w-80 overflow-hidden text-ellipsis"
               @click="goToAttachment(attachment)"
+              :title="attachment.name"
             >
               {{ attachment.name }}
             </div>
