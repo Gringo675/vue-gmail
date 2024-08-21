@@ -176,7 +176,7 @@ export const getOpenDraft = () => {
 }
 
 export const createAddTaskHolder = async () => {
-  const searchBlock = await getDomElementHelper('.gb_re')
+  const searchBlock = await getDomElementHelper('.gb_ue')
   const addTaskHolder = document.createElement('div')
   addTaskHolder.id = 'addTaskHolder'
   // insert after searchBlock
