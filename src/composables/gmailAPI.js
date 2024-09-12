@@ -175,13 +175,13 @@ export const getOpenDraft = () => {
   return document.querySelector('.M9 .editable')
 }
 
-export const createAddTaskHolder = async () => {
-  const searchBlock = await getDomElementHelper('.gb_ue')
-  const addTaskHolder = document.createElement('div')
-  addTaskHolder.id = 'addTaskHolder'
+export const createTopPanelHolder = async () => {
+  const searchBlock = await getDomElementHelper('.gb_we')
+  const topPanelHolder = document.createElement('div')
+  topPanelHolder.id = 'topPanelHolder'
   // insert after searchBlock
-  searchBlock.after(addTaskHolder)
-  return addTaskHolder
+  searchBlock.after(topPanelHolder)
+  return topPanelHolder
 }
 
 export const createTaskDraft = async () => {
