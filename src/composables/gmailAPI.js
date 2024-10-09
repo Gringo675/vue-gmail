@@ -176,7 +176,8 @@ export const getOpenDraft = () => {
 }
 
 export const createTopPanelHolder = async () => {
-  const searchBlock = await getDomElementHelper('.gb_xe')
+  const searchInput = await getDomElementHelper('.gb_Ae')
+  const searchBlock = searchInput.parentNode.parentNode
   const topPanelHolder = document.createElement('div')
   topPanelHolder.id = 'topPanelHolder'
   // insert after searchBlock
