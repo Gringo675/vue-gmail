@@ -131,8 +131,12 @@ export const useGmailThreadId = () => threadId
 
 export const findAllThreads = () => {
   // запускает поиск по e-mail клиента из активной цепочки
-  const threadFrom = links.thread.querySelector('span.gD')?.getAttribute('email')
-  const threadTo = links.thread.querySelector('span.g2')?.getAttribute('email')
+  // upd. изменил на выбор значений из последнего письма
+  const allFrom = links.thread.querySelectorAll('.gD')
+  const threadFrom = allFrom[allFrom.length - 1]?.getAttribute('email')
+  const allTo = links.thread.querySelectorAll('.g2')
+  const threadTo = allTo[allTo.length - 1]?.getAttribute('email')
+
   const clientMail = threadFrom === 'info@chelinstrument.ru' || threadFrom === 'meritel@mail.ru' ? threadTo : threadFrom
   const pressEnter = new KeyboardEvent('keydown', {
     keyCode: 13,

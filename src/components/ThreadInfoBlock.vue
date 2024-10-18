@@ -52,6 +52,8 @@ const getThreadData = async () => {
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
   })
   const receivedData = (await response.json()).response
+  // console.log(`currentThreadId: ${JSON.stringify(currentThreadId, null, 2)}`)
+  // console.log(`receivedData: ${JSON.stringify(receivedData, null, 2)}`)
   // test.gTime = Math.round(performance.now() - start) / 1000
   // получаем счета из 1С по одному полученному счету из googleData
   if (receivedData.bill) {
