@@ -58,16 +58,20 @@ const getThreadData = async () => {
   // получаем счета из 1С по одному полученному счету из googleData
   if (receivedData.bill) {
     // start = performance.now()
-    const response = await fetch(config.oneCUrl + 'getCustomerBills', {
-      method: 'POST',
-      body: JSON.stringify({
-        number: receivedData.bill.number,
-        date: receivedData.bill.date,
-        password: config.oneCPassword,
-      }),
-    })
-    receivedData.bills = await response.json()
-
+    try {
+      const response = await fetch(config.oneCUrl + 'getCustomerBills', {
+        method: 'POST',
+        body: JSON.stringify({
+          number: receivedData.bill.number,
+          date: receivedData.bill.date,
+          password: config.oneCPassword,
+        }),
+      })
+      receivedData.bills = await response.json()
+    } catch (e) {
+      console.error(`Ошибка при получении счетов от 1С: ${e.message}`)
+      receivedData.bills = []
+    }
     // test.ocTime = Math.round(performance.now() - start) / 1000
   } else receivedData.bills = []
 
