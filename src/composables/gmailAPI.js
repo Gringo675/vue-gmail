@@ -180,8 +180,11 @@ export const getOpenDraft = () => {
 }
 
 export const createTopPanelHolder = async () => {
-  const searchInput = await getDomElementHelper('.gb_Ae')
-  const searchBlock = searchInput.parentNode.parentNode
+  const searchInput = await getDomElementHelper('input[aria-label="Поиск в почте"]')
+  const searchBlock = searchInput.parentNode.parentNode.parentNode
+  // const searchBlock = Array(3)
+  //   .fill()
+  //   .reduce(parent => parent.parentNode, searchInput)
   const topPanelHolder = document.createElement('div')
   topPanelHolder.id = 'topPanelHolder'
   // insert after searchBlock

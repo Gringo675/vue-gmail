@@ -11,7 +11,6 @@ onMounted(async () => {
 
 const checkPayments = () => {
   // дергает 1с проверить новые платежи в почте
-  console.log('checkPayments')
   fetch(config.oneCUrl + 'checkPayments')
 }
 </script>
